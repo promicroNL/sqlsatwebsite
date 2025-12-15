@@ -1,0 +1,6 @@
+name = "sqlsat"
+author = "SQL Saturday"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+min_version = "0.120.0"
+description = "Site theme for SQL Saturday using SQLSat branding and layouts"

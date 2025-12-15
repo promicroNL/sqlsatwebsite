@@ -4,7 +4,6 @@ languageCode = "en-us"
 contentDir = "content"
 dataDir = "data"
 staticDir = ["static"]
-layoutDir = "layouts"
 theme = "sqlsat"
 paginate = 50
 
