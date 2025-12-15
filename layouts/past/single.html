@@ -1,0 +1,28 @@
+{{ define "main" }}
+<section class="mt-4">
+  <header class="mb-4">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="lead">{{ . }}</p>{{ end }}
+  </header>
+  <div class="content mb-4">{{ .Content }}</div>
+  {{ $events := where .Site.RegularPages "Section" "events" }}
+  {{ $live := where $events "Params.testevent" "!=" 1 }}
+  {{ $past := sort (where $live "Date" "<" (now.AddDate 0 0 -1)) "Date" "desc" }}
+  {{ if gt (len $past) 0 }}
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless mt-3">
+        <thead>
+          <tr><th>Event</th><th>Date</th><th>Location</th><th></th></tr>
+        </thead>
+        <tbody>
+          {{ range $past }}
+            {{ partial "event-row.html" (dict "page" .) }}
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  {{ else }}
+    <p>No past events recorded.</p>
+  {{ end }}
+</section>
+{{ end }}

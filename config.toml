@@ -1,0 +1,40 @@
+baseURL = "https://sqlsaturday.com/"
+title = "SQL Saturday"
+languageCode = "en-us"
+contentDir = "content"
+dataDir = "data"
+staticDir = ["static"]
+layoutDir = "layouts"
+theme = "sqlsat"
+paginate = 50
+
+[permalinks]
+  events = "/events/:slug/"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  brand = "SQL Saturday"
+  tagline = "Free data community events"
+  footer = "SQL Saturday is a free training event for the Microsoft data platform community."
+
+  [[params.navlinks]]
+    title = "Home"
+    url = "/"
+  [[params.navlinks]]
+    title = "Upcoming"
+    url = "/"
+    anchor = "#events"
+  [[params.navlinks]]
+    title = "Past Events"
+    url = "/past/"
+  [[params.navlinks]]
+    title = "Code of Conduct"
+    url = "/coc/"
+  [[params.navlinks]]
+    title = "Privacy"
+    url = "/privacy/"
+  [[params.navlinks]]
+    title = "Submit Event"
+    url = "/newevent/"

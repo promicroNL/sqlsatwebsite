@@ -1,15 +1,19 @@
-name: Beautiful Jekyll CI
+name: Hugo CI
 on: [push, pull_request]
 jobs:
   build:
-    name: Build Jekyll
+    name: Build Hugo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Build the site in the jekyll/builder container
+      - uses: actions/checkout@v4
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.134.0'
+          extended: true
+      - name: Generate redirects
         run: |
-          export JEKYLL_VERSION=3.8
-          docker run \
-          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-          -e PAGES_REPO_NWO=${{ github.repository }} \
-          jekyll/builder:$JEKYLL_VERSION /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
+          python3 scripts/generate_redirects.py
+      - name: Build site
+        run: |
+          hugo --minify --buildFuture

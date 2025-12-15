@@ -1,0 +1,9 @@
+{{ define "main" }}
+<article class="mt-4">
+  <header class="mb-4">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="lead">{{ . }}</p>{{ end }}
+  </header>
+  <div class="content">{{ .Content }}</div>
+</article>
+{{ end }}

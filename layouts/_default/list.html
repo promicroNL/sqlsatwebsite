@@ -1,0 +1,11 @@
+{{ define "main" }}
+<section class="mt-4">
+  <header class="mb-4"><h1>{{ .Title }}</h1></header>
+  {{ .Content }}
+  <ul class="list-unstyled">
+    {{ range .Pages }}
+      <li class="mb-2"><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

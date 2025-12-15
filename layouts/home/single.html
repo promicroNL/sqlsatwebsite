@@ -1,0 +1,63 @@
+{{ define "main" }}
+<section class="mt-4">
+  <header class="mb-4">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="lead">{{ . }}</p>{{ end }}
+  </header>
+  <div class="content mb-4">{{ .Content }}</div>
+  {{ $events := where .Site.RegularPages "Section" "events" }}
+  {{ $live := where $events "Params.testevent" "!=" 1 }}
+  {{ $upcoming := sort (where $live "Date" ">=" (now.AddDate 0 0 -1)) "Date" }}
+  <h2 id="events" class="mt-5">Upcoming Events</h2>
+  {{ if gt (len $upcoming) 0 }}
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless mt-3">
+        <thead>
+          <tr><th>Event</th><th>Date</th><th>Location</th><th></th></tr>
+        </thead>
+        <tbody>
+        {{ range $upcoming }}
+          {{ partial "event-row.html" (dict "page" .) }}
+        {{ end }}
+        </tbody>
+      </table>
+    </div>
+  {{ else }}
+    <p>No upcoming events are currently scheduled.</p>
+  {{ end }}
+
+  {{ $reserved := where $live "Params.postponed" "=" 1 }}
+  {{ if gt (len $reserved) 0 }}
+    <h2 id="reserved" class="mt-5">Reserved Dates</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless mt-3">
+        <thead>
+          <tr><th>Event</th><th>Date</th><th>Location</th><th></th></tr>
+        </thead>
+        <tbody>
+          {{ range sort $reserved "Date" }}
+            {{ partial "event-row.html" (dict "page" .) }}
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  {{ end }}
+
+  {{ $past := sort (where $live "Date" "<" (now.AddDate 0 0 -1)) "Date" "desc" }}
+  {{ if gt (len $past) 0 }}
+    <h2 id="other" class="mt-5">Recent Past Events</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless mt-3">
+        <thead>
+          <tr><th>Event</th><th>Date</th><th>Location</th><th></th></tr>
+        </thead>
+        <tbody>
+          {{ range first 10 $past }}
+            {{ partial "event-row.html" (dict "page" .) }}
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  {{ end }}
+</section>
+{{ end }}

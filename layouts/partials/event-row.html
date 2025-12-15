@@ -1,0 +1,19 @@
+{{ $page := .page }}
+{{ $data := index $page.Site.Data.events ($page.Params.data) }}
+{{ $location := "" }}
+{{ if $data }}
+  {{ with $data.eventlocation }}{{ $location = . }}{{ end }}
+  {{ if and (eq $location "") ($data.location) }}{{ $location = $data.location }}{{ end }}
+{{ end }}
+<tr>
+  <td><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></td>
+  <td>{{ if $page.Params.postponed }}Postponed{{ else }}{{ $page.Date.Format "January 2, 2006" }}{{ end }}</td>
+  <td>{{ if ne $location "" }}{{ $location | safeHTML }}{{ else }}&nbsp;{{ end }}</td>
+  <td class="text-nowrap">
+    {{ if and $data $data.registrationurl }}
+      <a class="btn btn-primary btn-sm" href="{{ $data.registrationurl }}">Register</a>
+    {{ else }}
+      &nbsp;
+    {{ end }}
+  </td>
+</tr>
